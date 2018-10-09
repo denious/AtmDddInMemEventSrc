@@ -15,7 +15,7 @@ namespace Domain
         {
             CashBalance += amount;
 
-            OnCashBalanceChanged(this);
+            Events.OnCashBalanceChanged(this);
         }
 
         public void SetCashBalance(double amount)
@@ -25,7 +25,7 @@ namespace Domain
 
             CashBalance = amount;
 
-            OnCashBalanceChanged(this);
+            Events.OnCashBalanceChanged(this);
         }
     }
 }
