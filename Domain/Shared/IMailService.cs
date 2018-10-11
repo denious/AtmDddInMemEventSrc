@@ -6,6 +6,6 @@ namespace Domain.Shared
 {
     public interface IMailService
     {
-        void SendBalanceNotification(double balance);
+        void SendBalanceNotification(int atmId, double balance);
     }
 }

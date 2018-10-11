@@ -1,6 +1,6 @@
 ﻿using System;
-using Domain;
-using Infrastructure.Example;
+using Infrastructure.EFCore;
+using Infrastructure.MailService.SendGrid;
 
 namespace ConsoleApp1
 {
@@ -8,7 +8,8 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            using (var uow = new UnitOfWork())
+            var mailService = new SendGridMailService();
+            using (var uow = new EFCoreUnitOfWork(mailService))
             {
                 var atm = uow.AtmRepository.GetById(1);
                 Console.WriteLine("ATM balance: $" + atm.CashBalance);

@@ -4,10 +4,17 @@ namespace Domain
 {
     public partial class Atm
     {
+        public int Id { get; private set; }
         public double CashBalance { get; private set; }
 
-        public Atm(double cashBalance)
+        public static Atm Create(double cashBalance)
         {
+            return new Atm(0, cashBalance);
+        }
+
+        public Atm(int id, double cashBalance)
+        {
+            Id = id;
             CashBalance = cashBalance;
         }
 

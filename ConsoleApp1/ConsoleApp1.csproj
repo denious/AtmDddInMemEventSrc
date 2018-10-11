@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Infrastructure.Example\Infrastructure.Example.csproj" />
+    <ProjectReference Include="..\Infrastructure.EFCore\Infrastructure.EFCore.csproj" />
+    <ProjectReference Include="..\Infrastructure.MailService.SendGrid\Infrastructure.MailService.SendGrid.csproj" />
   </ItemGroup>
 
 </Project>

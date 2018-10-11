@@ -3,21 +3,28 @@ using Domain;
 using Domain.ATM;
 using Domain.Shared;
 
-namespace Infrastructure.Example
+namespace Infrastructure.EFCore
 {
-    public class UnitOfWork : IUnitOfWork
+    public class EFCoreUnitOfWork : IUnitOfWork
     {
         public IAtmRepository AtmRepository { get; }
         public AtmDomainService AtmDomainService { get; }
 
         private readonly IMailService _mailService;
+        private readonly AtmContext _atmContext;
 
-        public UnitOfWork()
+        public EFCoreUnitOfWork(IMailService mailService)
         {
+            // save external service references
+            _mailService = mailService;
+
+            // load EF context
+            _atmContext = new AtmContext();
+            _atmContext.Database.EnsureCreated();
+
             // prepare repositories
-            AtmRepository = new AtmRepository();
+            AtmRepository = new AtmRepository(_atmContext);
             AtmDomainService = new AtmDomainService(AtmRepository);
-            _mailService = new MailService();
 
             // subscribe to events
             Events.CashBalanceChanged += AtmOnCashBalanceChanged;
@@ -31,11 +38,14 @@ namespace Infrastructure.Example
             AtmRepository.Update(atm);
 
             // notify of new balance
-            _mailService.SendBalanceNotification(atm.CashBalance);
+            _mailService.SendBalanceNotification(atm.Id, atm.CashBalance);
         }
 
         public void Dispose()
         {
+            // dispose of EF context
+            _atmContext.Dispose();
+
             // unsubscribe from events
             Events.CashBalanceChanged -= AtmOnCashBalanceChanged;
         }
