@@ -1,18 +1,18 @@
 ﻿using System;
 
-namespace Domain
+namespace Domain.ATM
 {
     public partial class Atm
     {
-        public int Id { get; private set; }
-        public double CashBalance { get; private set; }
+        public int Id { get; protected set; }
+        public double CashBalance { get; protected set; }
 
         public static Atm Create(double cashBalance)
         {
-            return new Atm(0, cashBalance);
+            return new Atm(null, cashBalance);
         }
 
-        public Atm(int id, double cashBalance)
+        public Atm(int? id, double cashBalance)
         {
             Id = id;
             CashBalance = cashBalance;
@@ -22,7 +22,7 @@ namespace Domain
         {
             CashBalance += amount;
 
-            Events.OnCashBalanceChanged(this);
+            DomainEvents.OnCashBalanceChanged(this);
         }
 
         public void SetCashBalance(double amount)
@@ -32,7 +32,7 @@ namespace Domain
 
             CashBalance = amount;
 
-            Events.OnCashBalanceChanged(this);
+            DomainEvents.OnCashBalanceChanged(this);
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Domain.Shared;
 
 namespace Domain.ATM
@@ -7,8 +7,9 @@ namespace Domain.ATM
     public interface IAtmRepository : IRepository
     {
         IQueryable<Atm> Get();
-        Atm GetById(int id);
-        void Add(Atm atm);
-        void Update(Atm atm);
+        Task<Atm> GetByIdAsync(int id);
+        Task AddAsync(Atm atm);
+        Task UpdateAsync(Atm atm);
+        Task DeleteAsync(Atm atm);
     }
 }

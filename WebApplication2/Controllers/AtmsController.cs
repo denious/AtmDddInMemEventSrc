@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Domain.Shared;
 using Infrastructure.EFCore;
 using Microsoft.AspNet.OData;
@@ -26,11 +27,11 @@ namespace WebApplication2.Controllers
         }
 
         [EnableQuery]
-        public IActionResult Get(int key)
+        public async Task<IActionResult> Get(int key)
         {
             using (var uow = new EFCoreUnitOfWork(_mailService))
             {
-                return Ok(uow.AtmRepository.GetById(key));
+                return Ok(await uow.AtmRepository.GetByIdAsync(key));
             }
         }
     }

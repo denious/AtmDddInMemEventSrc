@@ -24,18 +24,18 @@ namespace Infrastructure.EFCore
 
             // prepare repositories
             AtmRepository = new AtmRepository(_atmContext);
-            AtmDomainService = new AtmDomainService(AtmRepository);
+            AtmDomainService = new AtmDomainService();
 
             // subscribe to events
-            Events.CashBalanceChanged += AtmOnCashBalanceChanged;
+            DomainEvents.CashBalanceChanged += AtmOnCashBalanceChangedAsync;
         }
 
-        private void AtmOnCashBalanceChanged(object sender, EventArgs a)
+        private async void AtmOnCashBalanceChangedAsync(object sender, EventArgs a)
         {
             var atm = (Atm) sender;
 
             // send new ATM state to repository
-            AtmRepository.Update(atm);
+            await AtmRepository.UpdateAsync(atm);
 
             // notify of new balance
             _mailService.SendBalanceNotification(atm.Id, atm.CashBalance);
@@ -47,7 +47,7 @@ namespace Infrastructure.EFCore
             _atmContext.Dispose();
 
             // unsubscribe from events
-            Events.CashBalanceChanged -= AtmOnCashBalanceChanged;
+            DomainEvents.CashBalanceChanged -= AtmOnCashBalanceChangedAsync;
         }
     }
 }

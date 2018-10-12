@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Domain.ATM
 {
     public class AtmDomainService
     {
-        private readonly IAtmRepository _atmRepository;
-
-        public AtmDomainService(IAtmRepository atmRepository)
-        {
-            _atmRepository = atmRepository;
-        }
-
-        public void WithdrawCash(Atm atm, double amount)
+        public static void WithdrawCash(Atm atm, double amount)
         {
             if (amount <= 0)
                 throw new Exception("Cannot withdraw a zero or negative amount");

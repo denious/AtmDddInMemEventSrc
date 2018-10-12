@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain;
+using Domain.ATM;
 using Domain.Shared;
 using Infrastructure.EFCore;
 using Infrastructure.MailService.SendGrid;

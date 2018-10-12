@@ -1,4 +1,5 @@
 ﻿using System;
+using Domain.ATM;
 using Infrastructure.EFCore;
 using Infrastructure.MailService.SendGrid;
 
@@ -11,7 +12,7 @@ namespace ConsoleApp1
             var mailService = new SendGridMailService();
             using (var uow = new EFCoreUnitOfWork(mailService))
             {
-                var atm = uow.AtmRepository.GetById(1);
+                var atm = uow.AtmRepository.GetByIdAsync(1).GetAwaiter().GetResult();
                 Console.WriteLine("ATM balance: $" + atm.CashBalance);
 
                 Console.WriteLine("Setting balance to $1000");
@@ -21,7 +22,7 @@ namespace ConsoleApp1
                 try
                 {
                     Console.WriteLine("Trying to withdraw $2000");
-                    uow.AtmDomainService.WithdrawCash(atm, 2000);
+                    AtmDomainService.WithdrawCash(atm, 2000);
                 }
                 catch (Exception e)
                 {
@@ -29,7 +30,7 @@ namespace ConsoleApp1
                 }
 
                 Console.WriteLine("Trying to withdraw $1000");
-                uow.AtmDomainService.WithdrawCash(atm, 1000);
+                AtmDomainService.WithdrawCash(atm, 1000);
 
                 Console.WriteLine("New balance: $" + atm.CashBalance);
             }

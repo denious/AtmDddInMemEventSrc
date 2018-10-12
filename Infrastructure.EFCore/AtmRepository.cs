@@ -1,7 +1,8 @@
-﻿using System;
-using System.Linq;
-using Domain;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Domain.ATM;
+using Infrastructure.EFCore.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.EFCore
 {
@@ -16,24 +17,53 @@ namespace Infrastructure.EFCore
 
         public IQueryable<Atm> Get()
         {
-            return _atmContext.Atms;
+            return _atmContext.Atms.Select(o => DtoToEntity(o));
         }
 
-        public Atm GetById(int id)
+        public Task<Atm> GetByIdAsync(int id)
         {
-            return _atmContext.Atms.FirstOrDefault(o => o.Id == id);
+            return Get().FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public void Add(Atm atm)
+        public Task AddAsync(Atm atm)
         {
-            _atmContext.Atms.Add(atm);
-            _atmContext.SaveChanges();
+            var dto = EntityToDto(atm);
+
+            _atmContext.Atms.Add(dto);
+            return _atmContext.SaveChangesAsync();
         }
 
-        public void Update(Atm atm)
+        public Task UpdateAsync(Atm atm)
         {
-            _atmContext.Atms.Update(atm);
-            _atmContext.SaveChanges();
+            var dto = EntityToDto(atm);
+
+            _atmContext.Atms.Update(dto);
+            return _atmContext.SaveChangesAsync();
+        }
+
+        public Task DeleteAsync(Atm atm)
+        {
+            var dto = EntityToDto(atm);
+
+            _atmContext.Atms.Remove(dto);
+            return _atmContext.SaveChangesAsync();
+        }
+
+        private static Atm DtoToEntity(AtmDto dto)
+        {
+            var entity = new Atm(dto.ATM_ID,dto.CASH_BALANCE);
+            return entity;
+        }
+
+        private static AtmDto EntityToDto(Atm atm)
+        {
+            var dto = new AtmDto
+            {
+                ATM_ID = atm.Id,
+                CASH_BALANCE = atm.CashBalance
+            };
+
+            return dto;
         }
     }
 }
