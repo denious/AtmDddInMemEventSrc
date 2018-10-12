@@ -5,7 +5,7 @@ using Domain.Shared;
 
 namespace Domain.Bank
 {
-    class Bank : IAggregateRoot
+    public class Bank : IAggregateRoot
     {
         public int Id { get; private set; }
         public string Address { get; private set; }
@@ -14,7 +14,11 @@ namespace Domain.Bank
 
         public static Bank Create(string address, Manager.Manager manager)
         {
-            return new Bank(null, address, manager, null);
+            var bank = new Bank(null, address, manager, null);
+
+            DomainEvents.OnBankAdded(ref this);
+
+            return bank;
         }
 
         public Bank(int? id, string address, Manager.Manager manager, List<Atm> atmList)
@@ -38,5 +42,7 @@ namespace Domain.Bank
             Manager = manager;
             AtmList = atmList;
         }
+
+
     }
 }
