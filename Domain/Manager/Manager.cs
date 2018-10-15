@@ -1,26 +1,31 @@
 ﻿using System;
+using Domain.Manager.EventArgs;
+using Domain.Shared;
 
 namespace Domain.Manager
 {
-    public class Manager
+    public class Manager : IAggregateRoot
     {
-        public int Id { get; private set; }
+        public IIdentity Id { get; private set; }
         public string Name { get; private set; }
 
-        public static Manager Create(string name)
-        {
-            return new Manager(null, name);
-        }
-
-        public Manager(int? id, string name)
+        public Manager(IIdentity id, string name)
         {
             // validate instance
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
-
-            if (id != null) Id = id.Value;
             
             // set properties
+            Id = id;
             Name = name;
+        }
+
+        public static Manager Create(IIdentity id, string name)
+        {
+            var manager = new Manager(id, name);
+
+            DomainEvent.OnPublished(new OnManagerCreatedEventArgs(manager));
+
+            return manager;
         }
     }
 }

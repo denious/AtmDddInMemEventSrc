@@ -1,6 +1,6 @@
 ﻿namespace Domain.Shared
 {
-    public interface IAggregateRoot
+    public interface IIdentity
     {
     }
 }

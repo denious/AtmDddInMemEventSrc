@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Domain.ATM
+namespace Domain.Bank
 {
-    public class AtmDomainService
+    public class BankDomainService
     {
-        public static void WithdrawCash(Atm atm, double amount)
+        public static void WithdrawCashFromAtm(Atm atm, double amount)
         {
             if (amount <= 0)
                 throw new Exception("Cannot withdraw a zero or negative amount");

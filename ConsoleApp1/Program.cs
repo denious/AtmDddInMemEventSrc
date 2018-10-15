@@ -1,7 +1,8 @@
 ﻿using System;
-using Domain.ATM;
+using System.Collections.Generic;
+using Domain.Bank;
+using Domain.Manager;
 using Infrastructure.EFCore;
-using Infrastructure.MailService.SendGrid;
 
 namespace ConsoleApp1
 {
@@ -9,30 +10,10 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            var mailService = new SendGridMailService();
-            using (var uow = new EFCoreUnitOfWork(mailService))
+            using (var uow = new EFCoreUnitOfWork())
             {
-                var atm = uow.AtmRepository.GetByIdAsync(1).GetAwaiter().GetResult();
-                Console.WriteLine("ATM balance: $" + atm.CashBalance);
-
-                Console.WriteLine("Setting balance to $1000");
-                atm.SetCashBalance(1000);
-                Console.WriteLine("ATM balance: $" + atm.CashBalance);
-
-                try
-                {
-                    Console.WriteLine("Trying to withdraw $2000");
-                    AtmDomainService.WithdrawCash(atm, 2000);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-
-                Console.WriteLine("Trying to withdraw $1000");
-                AtmDomainService.WithdrawCash(atm, 1000);
-
-                Console.WriteLine("New balance: $" + atm.CashBalance);
+                var manager = Manager.Create(uow.NextIdentity(), "First Last");
+                var bank = Bank.Create(uow.NextIdentity(), "123 Street", manager, new List<Atm>());
             }
 
             Console.ReadKey();

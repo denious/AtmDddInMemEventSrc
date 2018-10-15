@@ -1,48 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain.ATM;
+using Domain.Bank.EventArgs;
 using Domain.Shared;
 
 namespace Domain.Bank
 {
     public class Bank : IAggregateRoot
     {
-        public int Id { get; private set; }
+        public IIdentity Id { get; private set; }
         public string Address { get; private set; }
         public Manager.Manager Manager { get; private set; }
         public IEnumerable<Atm> AtmList { get; private set; }
 
-        public static Bank Create(string address, Manager.Manager manager)
-        {
-            var bank = new Bank(null, address, manager, null);
-
-            DomainEvents.OnBankAdded(ref this);
-
-            return bank;
-        }
-
-        public Bank(int? id, string address, Manager.Manager manager, List<Atm> atmList)
+        public Bank(IIdentity id, string address, Manager.Manager manager, List<Atm> atmList)
         {
             // validate instance
             if (string.IsNullOrWhiteSpace(address)) throw new ArgumentNullException(nameof(address));
             if (manager == null) throw new ArgumentNullException(nameof(manager));
-
-            if (id != null)
-            {
-                Id = id.Value;
-                if (atmList == null) throw new ArgumentNullException(nameof(atmList));
-            }
-            else
-            {
-                AtmList = new Atm[0];
-            }
+            if (atmList == null) throw new ArgumentNullException(nameof(atmList));
 
             // set properties
+            Id = id;
             Address = address;
             Manager = manager;
             AtmList = atmList;
         }
 
+        public static Bank Create(IIdentity id, string address, Manager.Manager manager, List<Atm> atmList)
+        {
+            var bank = new Bank(id, address, manager, atmList);
 
+            DomainEvent.OnPublished(new OnBankCreatedEventArgs(bank));
+
+            return bank;
+        }
+
+        public void AtmBalanceChanged(Atm atm, double cashBalance)
+        {
+            atm.ChangeCashBalance(cashBalance);
+
+            DomainEvent.OnPublished(new OnCashBalanceChangedEventArgs(this, atm));
+        }
     }
 }

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Domain.ATM;
+﻿using Infrastructure.EFCore.Shared;
 
 namespace Infrastructure.EFCore.Entities
 {
-    class AtmDto
+    class AtmDTO
     {
-        public int ATM_ID { get; set; }
+        public Identity ATM_ID { get; set; }
         public double CASH_BALANCE { get; set; }
     }
 }

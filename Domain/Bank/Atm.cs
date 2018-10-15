@@ -1,10 +1,11 @@
 ﻿using System;
+using Domain.Shared;
 
-namespace Domain.ATM
+namespace Domain.Bank
 {
-    public partial class Atm
+    public class Atm
     {
-        public int Id { get; protected set; }
+        public IIdentity Id { get; protected set; }
         public double CashBalance { get; protected set; }
 
         public static Atm Create(double cashBalance)
@@ -12,7 +13,7 @@ namespace Domain.ATM
             return new Atm(null, cashBalance);
         }
 
-        public Atm(int? id, double cashBalance)
+        public Atm(IIdentity id, double cashBalance)
         {
             Id = id;
             CashBalance = cashBalance;
@@ -20,19 +21,10 @@ namespace Domain.ATM
 
         internal void ChangeCashBalance(double amount)
         {
-            CashBalance += amount;
-
-            DomainEvents.OnCashBalanceChanged(this);
-        }
-
-        public void SetCashBalance(double amount)
-        {
             if (amount < 0)
                 throw new Exception("Cannot set to a negative amount");
 
             CashBalance = amount;
-
-            DomainEvents.OnCashBalanceChanged(this);
         }
     }
 }

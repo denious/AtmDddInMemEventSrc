@@ -1,12 +1,15 @@
-﻿using Domain.ATM;
-using Infrastructure.EFCore.Entities;
+﻿using Domain.Bank;
 using Microsoft.EntityFrameworkCore;
+using Queries.Entities;
+using Queries.Shared;
 
-namespace Infrastructure.EFCore
+namespace Queries
 {
-    class AtmContext : DbContext
+    class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public DbSet<AtmDto> Atms { get; set; }
+        public DbSet<BankDTO> Banks { get; set; }
+        public DbSet<AtmDTO> Atms { get; set; }
+        public DbSet<ManagerDTO> Managers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -17,17 +20,17 @@ namespace Infrastructure.EFCore
         {
             // seed in-memory data
             modelBuilder.Entity<Atm>().HasData(
-                new AtmDto
+                new AtmDTO
                 {
                     ATM_ID = 1,
                     CASH_BALANCE = 100
                 },
-                new AtmDto
+                new AtmDTO
                 {
                     ATM_ID = 2,
                     CASH_BALANCE = 200
                 },
-                new AtmDto
+                new AtmDTO
                 {
                     ATM_ID = 3,
                     CASH_BALANCE = 300

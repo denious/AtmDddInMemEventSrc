@@ -1,53 +1,60 @@
 ﻿using System;
 using Domain;
-using Domain.ATM;
+using Domain.Bank;
+using Domain.Bank.EventArgs;
+using Domain.Manager;
 using Domain.Shared;
+using Infrastructure.EFCore.Shared;
 
 namespace Infrastructure.EFCore
 {
     public class EFCoreUnitOfWork : IUnitOfWork
     {
-        public IAtmRepository AtmRepository { get; }
-        public AtmDomainService AtmDomainService { get; }
+        public IBankRepository BankRepository { get; }
+        public BankDomainService BankDomainService { get; }
+        public IManagerRepository ManagerRepository { get; }
 
-        private readonly IMailService _mailService;
-        private readonly AtmContext _atmContext;
+        private readonly DbContext _dbContext;
 
-        public EFCoreUnitOfWork(IMailService mailService)
+        public EFCoreUnitOfWork()
         {
-            // save external service references
-            _mailService = mailService;
-
             // load EF context
-            _atmContext = new AtmContext();
-            _atmContext.Database.EnsureCreated();
+            _dbContext = new DbContext();
+            _dbContext.Database.EnsureCreated();
 
             // prepare repositories
-            AtmRepository = new AtmRepository(_atmContext);
-            AtmDomainService = new AtmDomainService();
+            BankRepository = new BankRepository(_dbContext);
+            BankDomainService = new BankDomainService();
+            ManagerRepository = new ManagerRepository(_dbContext);
 
             // subscribe to events
-            DomainEvents.CashBalanceChanged += AtmOnCashBalanceChangedAsync;
+            DomainEvent.Published += DomainEventPublished;
         }
 
-        private async void AtmOnCashBalanceChangedAsync(object sender, EventArgs a)
+        private void DomainEventPublished(object sender, DomainEventArgs e)
         {
-            var atm = (Atm) sender;
+            switch (e)
+            {
+                case OnBankCreatedEventArgs bankCreatedEventArgs:
+                {
+                    BankRepository.AddBankAsync(bankCreatedEventArgs.Bank).GetAwaiter().GetResult();
+                    break;
+                }
+            }
+        }
 
-            // send new ATM state to repository
-            await AtmRepository.UpdateAsync(atm);
-
-            // notify of new balance
-            _mailService.SendBalanceNotification(atm.Id, atm.CashBalance);
+        public IIdentity NextIdentity()
+        {
+            return new Identity(Guid.NewGuid());
         }
 
         public void Dispose()
         {
             // dispose of EF context
-            _atmContext.Dispose();
+            _dbContext.Dispose();
 
             // unsubscribe from events
-            DomainEvents.CashBalanceChanged -= AtmOnCashBalanceChangedAsync;
+            DomainEvent.Published -= DomainEventPublished;
         }
     }
 }
