@@ -12,7 +12,7 @@ namespace Domain.Bank
             if (atm.CashBalance < amount)
                 throw new Exception("Not enough cash in ATM");
 
-            atm.ChangeCashBalance(-amount);
+            atm.AddCash(-amount);
         }
     }
 }

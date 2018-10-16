@@ -1,10 +1,15 @@
-﻿using Infrastructure.EFCore.Shared;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.EFCore.Entities
 {
     class AtmDTO
     {
-        public Identity ATM_ID { get; set; }
-        public double CASH_BALANCE { get; set; }
+        public Guid Id { get; set; }
+        public double CashBalance { get; set; }
+
+        [ForeignKey("BankId")]
+        public BankDTO Bank { get; set; }
+        public Guid BankId { get; set; }
     }
 }

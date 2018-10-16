@@ -1,4 +1,6 @@
-﻿namespace Domain.Bank.EventArgs
+﻿using Domain.Shared;
+
+namespace Domain.Bank.EventArgs
 {
     public class OnCashBalanceChangedEventArgs : DomainEventArgs
     {

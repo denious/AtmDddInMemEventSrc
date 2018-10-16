@@ -1,6 +1,8 @@
-﻿namespace Domain.Shared
+﻿using System;
+
+namespace Domain.Shared
 {
-    public interface IIdentity
+    public interface IIdentity : IEquatable<IIdentity>
     {
     }
 }
