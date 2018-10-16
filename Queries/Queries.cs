@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Domain.Bank;
-using Queries.Shared;
+using Bank = Queries.ViewModels.Bank;
+using Manager = Queries.ViewModels.Manager;
 
 namespace Queries
 {
-    public class Queries:IDisposable
+    public class Queries : IDisposable
     {
-        private DbContext _dbContext;
+        private readonly DbContext _dbContext;
 
         public Queries()
         {
@@ -18,7 +16,22 @@ namespace Queries
 
         public IQueryable<Bank> GetBanks()
         {
-            throw new NotImplementedException();
+            return _dbContext.Banks;
+        }
+
+        public IQueryable<Bank> GetBankById(Guid id)
+        {
+            return _dbContext.Banks.Where(o => o.Id == id);
+        }
+
+        public IQueryable<Manager> GetManagers()
+        {
+            return _dbContext.Managers;
+        }
+
+        public IQueryable<Manager> GetManagerById(Guid id)
+        {
+            return _dbContext.Managers.Where(o => o.Id == id);
         }
 
         public void Dispose()

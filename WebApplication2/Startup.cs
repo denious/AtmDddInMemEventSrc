@@ -1,7 +1,4 @@
-﻿using Domain.Bank;
-using Domain.Shared;
-using Infrastructure.EFCore;
-using Microsoft.AspNet.OData.Builder;
+﻿using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Query;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OData.Edm;
+using WebApplication2.Entities;
 
 namespace WebApplication2
 {
@@ -26,7 +24,7 @@ namespace WebApplication2
         public void ConfigureServices(IServiceCollection services)
         {
             // Inject unit of work
-            services.AddTransient<IUnitOfWork, EFCoreUnitOfWork>();
+            services.AddScoped<DbContext>();
             
             // Add OData
             services.AddOData();
@@ -62,6 +60,12 @@ namespace WebApplication2
             var builder = new ODataConventionModelBuilder();
 
             builder.EntitySet<Bank>("Banks")
+                .EntityType
+                .HasKey(o => o.Id)
+                .Page(10, 10)
+                .Filter(QueryOptionSetting.Allowed);
+
+            builder.EntitySet<Manager>("Managers")
                 .EntityType
                 .HasKey(o => o.Id)
                 .Page(10, 10)

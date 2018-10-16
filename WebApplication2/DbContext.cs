@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Queries.ViewModels;
+using WebApplication2.Entities;
 
-namespace Queries
+namespace WebApplication2
 {
-    class DbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Atm> Atms { get; set; }

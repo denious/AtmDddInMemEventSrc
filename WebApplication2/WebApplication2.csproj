@@ -12,12 +12,11 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="7.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure.EFCore\Infrastructure.EFCore.csproj" />
-    <ProjectReference Include="..\Infrastructure.MailService.SendGrid\Infrastructure.MailService.SendGrid.csproj" />
   </ItemGroup>
 
 </Project>
