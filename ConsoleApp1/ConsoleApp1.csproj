@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.EFCore\Infrastructure.EFCore.csproj" />
-    <ProjectReference Include="..\Infrastructure.MailService.SendGrid\Infrastructure.MailService.SendGrid.csproj" />
   </ItemGroup>
 
 </Project>

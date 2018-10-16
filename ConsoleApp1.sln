@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.EFCore", "Infrastructure.EFCore\Infrastructure.EFCore.csproj", "{9E225419-F4C7-4F9E-B165-7BD0E15C6A83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.MailService.SendGrid", "Infrastructure.MailService.SendGrid\Infrastructure.MailService.SendGrid.csproj", "{9E15B567-A246-4757-A09B-46770F0663D7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication2", "WebApplication2\WebApplication2.csproj", "{DE8C58BF-2AB6-4A26-BCE8-7EB9C4EBD686}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{39751BE9-5941-4C20-990E-EB915328593C}"
 EndProject
 Global
@@ -27,14 +23,6 @@ Global
 		{9E225419-F4C7-4F9E-B165-7BD0E15C6A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E225419-F4C7-4F9E-B165-7BD0E15C6A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E225419-F4C7-4F9E-B165-7BD0E15C6A83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E15B567-A246-4757-A09B-46770F0663D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E15B567-A246-4757-A09B-46770F0663D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E15B567-A246-4757-A09B-46770F0663D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E15B567-A246-4757-A09B-46770F0663D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE8C58BF-2AB6-4A26-BCE8-7EB9C4EBD686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE8C58BF-2AB6-4A26-BCE8-7EB9C4EBD686}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE8C58BF-2AB6-4A26-BCE8-7EB9C4EBD686}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE8C58BF-2AB6-4A26-BCE8-7EB9C4EBD686}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39751BE9-5941-4C20-990E-EB915328593C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39751BE9-5941-4C20-990E-EB915328593C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39751BE9-5941-4C20-990E-EB915328593C}.Release|Any CPU.ActiveCfg = Release|Any CPU
