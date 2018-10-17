@@ -6,7 +6,10 @@ namespace Domain
     {
         internal static void OnPublished(DomainEventArgs args)
         {
-            Published?.Invoke(null, args);
+            if (Published == null)
+                throw new NotImplementedException("No one has subscribed to this event.");
+
+            Published.Invoke(null, args);
         }
 
         public static event DomainEventHandler Published;

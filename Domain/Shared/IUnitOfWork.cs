@@ -4,6 +4,6 @@ namespace Domain.Shared
 {
     public interface IUnitOfWork : IDisposable
     {
-        IIdentity NextIdentity();
+        IRepository Repository { get; }
     }
 }

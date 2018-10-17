@@ -14,25 +14,25 @@ namespace ConsoleApp1
             IIdentity bankId;
             using (var uow = new EFCoreUnitOfWork())
             {
-                var manager = Manager.Create(uow.NextIdentity(), "First Last");
-                var bank = Bank.Create(uow.NextIdentity(), "123 Street", manager, new List<Atm>());
+                var manager = Manager.Create(uow.Repository.NextIdentity(), "First Last");
+                var bank = Bank.Create(uow.Repository.NextIdentity(), "123 Street", manager, new List<Atm>());
                 bankId = bank.Id;
             }
 
             IIdentity atmId;
             using (var uow = new EFCoreUnitOfWork())
             {
-                var createdBank = uow.GetBankById(bankId);
-                var atm = createdBank.NewAtmInstalled(uow.NextIdentity(), 5000);
+                var createdBank = uow.Repository.GetBankById(bankId);
+                var atm = createdBank.NewAtmInstalled(uow.Repository.NextIdentity(), 5000);
                 atmId = atm.Id;
             }
 
             using (var uow = new EFCoreUnitOfWork())
             {
-                var bank = uow.GetBankById(bankId);
+                var bank = uow.Repository.GetBankById(bankId);
                 bank.AtmBalanceChanged(atmId, -1000);
 
-                var updatedBank = uow.GetBankById(bankId);
+                var updatedBank = uow.Repository.GetBankById(bankId);
             }
 
             Console.ReadKey();
