@@ -4,6 +4,6 @@
     {
         IIdentity NextIdentity();
         Bank.Bank GetBankById(IIdentity bankId);
-        Manager.Manager GetManagerById(IIdentity bankId);
+        Manager.Manager GetManagerById(IIdentity managerId);
     }
 }
